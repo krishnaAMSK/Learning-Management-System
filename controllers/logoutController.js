@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-
-router.post('/logout', (req, res) => {
-    
-    req.session.destroy();
-    res.status(200).json({ message: 'Logout successful' });
-});
-
-module.exports = router;
+async function userLogout(req, res) {
+    try {
+        req.session.destroy();
+        res.redirect("/");
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
+module.exports=userLogout;

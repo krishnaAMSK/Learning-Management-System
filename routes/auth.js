@@ -3,14 +3,14 @@ const { verify } = require('jsonwebtoken');
 const router = express.Router();
 
 // const handleLogin = require('../controllers/loginController');
-// const handleLogout = require('../controllers/logoutController');
+const handleLogout = require('../controllers/logoutController');
 // const refreshToken = require('../controllers/refreshTokenController');
 // const resetPassword = require('../controllers/passwordResetController');
 // const verifyMail = require('../controllers/emailVerification');
 
 // router.get('/login', handleLogin);
 // router.post('/login', handleLogin);
-// router.get('/logout', handleLogout);
+router.get('/logout', handleLogout.userLogout);
 // router.get('/refresh', refreshToken);
 // router.get('/register', registerUser);
 // router.post('/register', registerUser);
