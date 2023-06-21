@@ -10,7 +10,7 @@ const handleLogout = require('../controllers/logoutController');
 
 // router.get('/login', handleLogin);
 // router.post('/login', handleLogin);
-router.get('/logout', handleLogout.userLogout);
+router.get('/logout', handleLogout);
 // router.get('/refresh', refreshToken);
 // router.get('/register', registerUser);
 // router.post('/register', registerUser);
