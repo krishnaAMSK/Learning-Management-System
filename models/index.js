@@ -5,6 +5,5 @@ const connection = mysql.createConnection(dbConfig);
 const userModel = require('../models/userModel');
 
 module.exports = {
-    connection,
-    User: userModel,
+    connection
 };
