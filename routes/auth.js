@@ -7,14 +7,15 @@ const mysql = require('mysql');
 // const handleLogout = require('../controllers/logoutController');
 // const refreshToken = require('../controllers/refreshTokenController');
 // const resetPassword = require('../controllers/passwordResetController');
-const userController = require('../controllers/emailVerification');
+const userEmailVerify = require('../controllers/emailVerification');
+const userRegister = require('../controllers/registerController');
 
 // router.get('/login', handleLogin);
 // router.post('/login', handleLogin);
 // router.get('/logout', handleLogout);
 // router.get('/refresh', refreshToken);
 // router.get('/register', registerUser);
-router.post('/register',signUpValidation,userController.register);
+router.post('/register',signUpValidation,userRegister.register);
 // router.post('/register', registerUser);
 // router.post('/reset', resetPassword);
 // router.post('verifyMail', verifyMail);
