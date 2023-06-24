@@ -17,6 +17,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
+app.use('/mail-verification', require('./routes/verifyEmail'));
 
 app.use(verifyJWT);
 app.get('/', (req, res) => {

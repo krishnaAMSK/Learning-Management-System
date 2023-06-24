@@ -35,7 +35,10 @@ const handleLoginUser = async (req, res) => {
                     }
                     console.log(accessToken);
                     res.cookie('auth', accessToken, cookieOptions);
-                    res.json({"message": "Logged in and cookie set successfully."});
+                    if(userLogin.is_Verified)
+                        res.json({"message": "Logged in and cookie set successfully."});
+                    else
+                        res.json({"message": "Logged in and cookie set successfully. But please verify your email."})
                 }
                 else{
                     return res.status(401).json({"message": "Invalid Credentials."});

@@ -1,12 +1,7 @@
-// const express = require('express');
-// const router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-// const refreshToken = require('../controllers/refreshTokenController');
-// const resetPassword = require('../controllers/passwordResetController');
-// const verifyMail = require('../controllers/emailVerification');
+const emailVerification = require('../controllers/emailVerification');
+router.get('/',emailVerification.verifyMail);
 
-// router.get('/refresh', refreshToken);
-// router.post('/reset', resetPassword);
-// router.post('verifyMail', verifyMail);
-
-// module.exports = router;
+module.exports = router;

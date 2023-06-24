@@ -1,6 +1,7 @@
 const prisma = require('../prisma/db');
 const bcrypt = require('bcrypt');
-
+const randomstring=require('randomstring');
+const {emailContent}=require('./emailVerification');
 
 const handleNewUser = async (req, res) => {
     const { username, password, email } = req.body;
@@ -18,23 +19,33 @@ const handleNewUser = async (req, res) => {
 
     try {
         const hashedPassword = await bcrypt.hash(password, 12);
-        async function createUser(username, password, email){
+        const randomToken=randomstring.generate();
+
+        async function createUser(username, password, email, randomToken){
             try{
+                const token = randomToken;
+                const is_Verified = false;
                 const newUser = await prisma.user.create({
                     data:{
                         username,
                         password,
-                        email
+                        email,
+                        token,
+                        is_Verified
                     }
                 });
                 console.log("New user created:", newUser);
-                res.status(201).json({ 'success': `New user ${newUser.username} created!` });
+                return new Promise ((resolve, reject) =>{
+                    res.status(201).json({ 'success': `New user ${newUser.username} created!` });
+                    resolve();
+                })
             }catch(error){
                 console.error('Error occured during user creation: ', error);
                 res.status(500).json({ 'message': error });
             }
         }
-        createUser(username, hashedPassword, email)
+        createUser(username, hashedPassword, email, randomToken).then(emailContent(username,email, randomToken));
+        
         
     } catch (err) {
         res.status(500).json({ 'message': err.message });
