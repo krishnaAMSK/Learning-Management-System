@@ -2,6 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const getfilescontroller = require('../controllers/getfilescontroller');
-router.get('/',getfilescontroller.getfiles);
+router.get('/',getfilescontroller.getFilesByUserId);
 
 module.exports = router;
