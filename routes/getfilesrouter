@@ -1,0 +1,7 @@
+const express = require('express');
+const router = express.Router();
+
+const getfilescontroller = require('../controllers/getfilescontroller');
+router.get('/',getfilescontroller.getfiles);
+
+module.exports = router;
