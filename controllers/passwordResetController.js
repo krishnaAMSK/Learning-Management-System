@@ -1,10 +1,11 @@
 const prisma = require('../prisma/db');
 const bcrypt = require('bcrypt');
+const {constants} = require('../constants');
 
 const handlePasswordReset = async (req, res) => {
   const { username, newPassword } = req.body;
   if (!username || !newPassword)
-    return res.status(400).json({ 'message': 'Username and new password are required.' });
+    return res.status(constants.VALIDATION_ERROR).json({ 'message': 'Username and new password are required.' });
 
   try {
     const user = await prisma.user.findUnique({
@@ -14,7 +15,7 @@ const handlePasswordReset = async (req, res) => {
     });
 
     if (!user)
-      return res.status(404).json({ 'message': 'User not found.' });
+      return res.status(constants.NOT_FOUND).json({ 'message': 'User not found.' });
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);
 
@@ -27,10 +28,10 @@ const handlePasswordReset = async (req, res) => {
       }
     });
 
-    res.status(200).json({ 'success': 'Password reset successfully.' });
+    res.status(constants.SUCCESS).json({ 'success': 'Password reset successfully.' });
   } catch (error) {
     console.error('Error occurred during password reset: ', error);
-    res.status(500).json({ 'message': error });
+    res.status(constants.INTERNAL_SERVER_ERROR).json({ 'message': error });
   }
 };
 
