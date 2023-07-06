@@ -1,7 +1,7 @@
 const prisma = require('../prisma/db');
-const randomstring=require('randomstring');
+const randomstring = require('randomstring');
+const {constants} = require('../constants');
 const nodemailer =require('nodemailer');
-
 
 
 const sendMail = async(email,mailSubject,content)=>{
@@ -54,10 +54,8 @@ const emailContent=(name,email, randomToken)=>{
     //         }
     //     }
     // updateToken(randomToken,email);
-    }
+}
 
-
-//verify mail
 const verifyMail = async (req, res) => {
     try {
         const token = req.query.token;
@@ -76,7 +74,7 @@ const verifyMail = async (req, res) => {
                 },
             });
             console.log('Mail verified successfully' );
-            return res.status(200).json({"message":"Mail verified successfully!!!"});
+            return res.status(constants.SUCCESS).json({"message":"Mail verified successfully!!!"});
         } else {
             console.log('Mail not verified!!' );
             return res.json({"message":"Mail not verified!"});
@@ -85,7 +83,6 @@ const verifyMail = async (req, res) => {
         console.log(error.message);
     } 
 };
-
 
 module.exports = {
     verifyMail,sendMail,emailContent
