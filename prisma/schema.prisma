@@ -15,3 +15,10 @@ model user {
     token       String
     is_Verified Boolean
 }
+
+model file {
+    id         Int      @id @default(autoincrement())
+    userId     Int
+    fileName   String
+    created_at DateTime @default(now())
+}
