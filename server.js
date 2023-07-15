@@ -4,6 +4,7 @@ const cors = require("cors");
 const prisma = require('./prisma/db');
 const cookieParser = require('cookie-parser');
 const verifyJWT = require('./middleware/jwtTokenMiddleware');
+const checkRole = require('./middleware/checkRoleMiddleware');
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +21,12 @@ app.use('/logout', require('./routes/logout'));
 app.use('/mail-verification', require('./routes/verifyEmail'));
 
 app.use('/files/:userId',require('./routes/getUploads'));
+
+// use this middleware for the protected routes 
+app.post('/createClass',checkRole(['admin','teacher']), (req, res) => {
+    return res.json({"message":"class created"});
+});
+
 app.use(verifyJWT);
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome to the home page !!!"});
@@ -35,5 +42,5 @@ prisma.$connect()
     
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
+    console.log(`Server is running on port ${PORT}.`);
 });

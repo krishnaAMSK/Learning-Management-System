@@ -14,6 +14,7 @@ model user {
     password    String
     token       String
     is_Verified Boolean
+    userRole    String
 }
 
 
