@@ -19,6 +19,8 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/mail-verification', require('./routes/verifyEmail'));
 
+app.use('/classroom', require("./routes/classroom"));
+
 app.use(verifyJWT);
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome to the home page !!!"});

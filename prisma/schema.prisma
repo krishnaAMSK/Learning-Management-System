@@ -7,11 +7,35 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model user {
-    id          Int     @id @default(autoincrement())
-    username    String  @unique
-    email       String  @unique
+model User {
+    id          Int         @id @default(autoincrement())
+    username    String      @unique
+    email       String      @unique
     password    String
     token       String
     is_Verified Boolean
+    userRole    String
+    classrooms  Classroom[] @relation("StudentClassrooms")
+}
+
+model File {
+    id         Int      @id @default(autoincrement())
+    userId     Int
+    fileName   String
+    created_at DateTime @default(now())
+}
+
+model Classroom {
+    id            Int    @id @default(autoincrement())
+    classname     String
+    classroomId   String    @unique
+    teachername   String @unique
+    students      User[] @relation("StudentClassrooms")
+    classStrength Int    @default(0)
+}
+
+enum UserRole {
+    STUDENT
+    TEACHER
+    ADMIN
 }
