@@ -18,6 +18,13 @@ model user {
     profileId    Int
 }
 
+model file {
+    id         Int      @id @default(autoincrement())
+    userId     Int
+    fileName   String
+    created_at DateTime @default(now())
+}
+
 model userProfile {
     id            Int       @id @default(autoincrement())
     fullName      String
