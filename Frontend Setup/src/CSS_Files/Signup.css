@@ -1,0 +1,43 @@
+.box {
+    width: 300px;
+   /* height: 400px;  */ 
+    border-style: solid;
+    border-color: black;
+  /*  margin-top: 40px;
+    margin-left: 400px;    */
+    margin: auto;
+    margin-top: 40px;
+    padding-bottom: 10px;
+}
+
+p{
+    font-size: 2em;
+    text-align: center;
+}
+
+.hello{
+    font-size: 0.8em;
+}
+
+.form1{
+    text-align: center;
+}
+
+.submit{
+  margin: 10px;
+}
+
+.signin-username{
+  margin: 10px;
+  width: 70%;
+}
+
+.signin-password{
+  margin: 10px;
+  width: 70%; 
+}
+
+.signin-email{
+  margin: 10px;
+  width: 70%; 
+}

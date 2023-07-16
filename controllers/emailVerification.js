@@ -37,23 +37,6 @@ const emailContent=(name,email, randomToken)=>{
     let content='<p>hii '+name+',\please <a href="http://127.0.0.1:8000/mail-verification?token='+randomToken+'">verify</a> your email';
 
     sendMail(email,mailSubject,content);
-                                
-    // function updateToken(randomToken, email) {
-    //     try {
-    //     const updateUser = prisma.user.update({
-    //         where: {
-    //             email: email,
-    //             },
-    //         data: {
-    //             token: randomToken,
-    //         },
-    //         })
-    //         console.log('updated');
-    //         }catch (error) {
-    //           console.log('Error in updating token:', error);
-    //         }
-    //     }
-    // updateToken(randomToken,email);
     }
 
 

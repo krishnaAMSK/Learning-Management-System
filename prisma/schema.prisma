@@ -15,6 +15,22 @@ model user {
     token       String
     is_Verified Boolean
     userRole    String
+    profile      userProfile?  @relation(fields: [profileId], references: [id])
+    profileId    Int
+}
+
+model userProfile {
+    id            Int       @id @default(autoincrement())
+    fullName      String
+    age           Int
+    gender        String
+    profession    String
+    universityName String
+    contactNumber String
+    address       String
+    role          String
+    user          user      @relation(fields: [userId], references: [id])
+    userId        Int
 }
 
 
