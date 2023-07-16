@@ -22,7 +22,7 @@ const handleLoginUser = async (req, res) => {
                 const checkPassword = await bcrypt.compare(password, userLogin.password);
                 if(checkPassword) {
                     const accessToken = jwt.sign(
-                        {"username": userLogin.username},
+                        {"username": userLogin.username,"userRole":userLogin.userRole},
                         process.env.JWT_SECRET,
                         { expiresIn: '1d' }
                     );

@@ -14,15 +14,9 @@ model user {
     password    String
     token       String
     is_Verified Boolean
+    userRole    String
     profile      userProfile?  @relation(fields: [profileId], references: [id])
     profileId    Int
-}
-
-model file {
-    id         Int      @id @default(autoincrement())
-    userId     Int
-    fileName   String
-    created_at DateTime @default(now())
 }
 
 model userProfile {
