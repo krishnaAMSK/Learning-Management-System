@@ -30,6 +30,8 @@ app.use('/classroom', require("./routes/classroom"));
 app.use(verifyJWT);
 app.use(refreshJWTToken);
 
+app.use('/assignments', assignmentRoutes);
+
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome to the home page !!!"});
 });
