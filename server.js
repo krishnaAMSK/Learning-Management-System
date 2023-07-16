@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const verifyJWT = require('./middleware/jwtTokenMiddleware');
 const checkRole = require('./middleware/checkRoleMiddleware');
 const multer  = require('multer')
+const {refreshJWTToken}=require('./middleware/refreshTokenMiddleware');
 require('dotenv').config();
 
 const app = express();
@@ -27,6 +28,10 @@ app.use('/files/:userId',require('./routes/getUploads'));
 app.use('/classroom', require("./routes/classroom"));
 
 app.use(verifyJWT);
+app.use(refreshJWTToken);
+
+app.use('/assignments', assignmentRoutes);
+
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome to the home page !!!"});
 });
