@@ -38,3 +38,12 @@ model userProfile {
     user          user      @relation(fields: [userId], references: [id])
     userId        Int
 }
+
+
+model File {
+    id               Int       @id @default(autoincrement())
+    userId           Int
+    filename         String
+    createdAt        DateTime  @default(now())
+}
+

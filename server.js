@@ -21,6 +21,7 @@ app.use('/logout', require('./routes/logout'));
 app.use('/mail-verification', require('./routes/verifyEmail'));
 app.use('/profile', require('./routes/profile'));
 
+app.use('/files/:userId',require('./routes/getUploads'));
 app.use(verifyJWT);
 app.get('/', (req, res) => {
     return res.json({ message: "Welcome to the home page !!!"});
