@@ -18,6 +18,7 @@ app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/mail-verification', require('./routes/verifyEmail'));
+app.use('/profile', require('./routes/profile'));
 
 app.use(verifyJWT);
 app.get('/', (req, res) => {
