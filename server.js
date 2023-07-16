@@ -24,10 +24,7 @@ app.use('/profile', require('./routes/profile'));
 
 app.use('/files/:userId',require('./routes/getUploads'));
 
-// use this middleware for the protected routes 
-app.post('/createClass',checkRole(['admin','teacher']), (req, res) => {
-    return res.json({"message":"class created"});
-});
+app.use('/classroom', require("./routes/classroom"));
 
 app.use(verifyJWT);
 app.get('/', (req, res) => {

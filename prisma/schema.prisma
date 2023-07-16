@@ -17,6 +17,7 @@ model user {
     userRole    String
     profile      userProfile?  @relation(fields: [profileId], references: [id])
     profileId    Int
+    classrooms  Classroom[] @relation("StudentClassrooms")
 }
 
 model userProfile {
@@ -41,3 +42,12 @@ model File {
     createdAt        DateTime  @default(now())
 }
 
+
+model Classroom {
+    id            Int    @id @default(autoincrement())
+    classname     String
+    classroomId   String    @unique
+    teachername   String @unique
+    students      user[] @relation("StudentClassrooms")
+    classStrength Int    @default(0)
+}
