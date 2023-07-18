@@ -5,6 +5,7 @@ const prisma = require('./prisma/db');
 const cookieParser = require('cookie-parser');
 const verifyJWT = require('./middleware/jwtTokenMiddleware');
 const checkRole = require('./middleware/checkRoleMiddleware');
+const taskRoutes = require('./routes/taskRoutes');
 const multer  = require('multer')
 require('dotenv').config();
 
@@ -25,6 +26,8 @@ app.use('/profile', require('./routes/profile'));
 app.use('/files/:userId',require('./routes/getUploads'));
 
 app.use('/classroom', require("./routes/classroom"));
+
+app.use('/api/tasks', taskRoutes);
 
 app.use(verifyJWT);
 app.get('/', (req, res) => {
