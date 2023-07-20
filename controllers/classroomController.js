@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
+const prisma = require('../prisma/db');
+
 
 // Create a classroom
 async function createClassroom(req, res) {
@@ -23,8 +23,6 @@ async function createClassroom(req, res) {
     return res
       .status(500)
       .json({ error: "An error occurred while creating the classroom." });
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -35,6 +33,7 @@ async function addStudentToClassroom(req, res) {
   try {
     const classroom = await prisma.classroom.findUnique({
       where: { id: Number(classroomId) },
+      include: { students: true },
     });
 
     // Classroom not found
@@ -52,9 +51,8 @@ async function addStudentToClassroom(req, res) {
     }
 
     // Check if student already exists in the classroom
-    const studentExists = classroom.students.some(
-      (existingStudent) => existingStudent.id === Number(studentId)
-    );
+
+    const studentExists = classroom.students.some((student) => student.id == studentId);
 
     if (studentExists) {
       return res.status(400).json({
@@ -83,8 +81,6 @@ async function addStudentToClassroom(req, res) {
   } catch (error) {
     console.error("Error adding student to classroom:", error);
     return res.status(500).json({ error: "Internal server error." });
-  } finally {
-    await prisma.$disconnect();
   }
 }
 

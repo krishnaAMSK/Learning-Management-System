@@ -3,10 +3,7 @@ require('dotenv').config();
 
 // Middleware function for role-based access control
 const checkRole = (requiredRole) => (req, res, next) => {
-    const token = req.headers.authorization;
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided.' });
-    }
+    const token = req.cookies.auth;
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
