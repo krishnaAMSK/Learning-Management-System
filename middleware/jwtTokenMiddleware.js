@@ -14,6 +14,7 @@ const verifyJWT = (req, res, next) => {
                 return res.status(403).json({"message": "JWT Token error."});
             
             req.user = decoded.username;
+            req.userRole = decoded.userRole;
             next();
         }
     )
