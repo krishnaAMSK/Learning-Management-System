@@ -1,9 +1,16 @@
 const prisma = require('../prisma/db');
+const redisClient = require('../config/redis.config');
 
 const getProfile = async (req, res) => {
   try {
-    const userId = parseInt(req.params.userId);
+    const cacheKey = `user:${req.user}:route:/profile/${req.url}`;
+    const cacheData = await redisClient.get(cacheKey);
 
+    if(cacheData){
+        return res.status(200).json(JSON.parse(cacheData));
+    }
+
+    const userId = parseInt(req.params.userId);
     const userProfile = await prisma.userProfile.findUnique({
       where: { 
         userId: userId 
@@ -13,7 +20,9 @@ const getProfile = async (req, res) => {
     if (!userProfile) {
       return res.status(404).json({ message: 'User profile not found.' });
     }
+    await redisClient.set(cacheKey, JSON.stringify(userProfile), "EX", 10);
     return res.json(userProfile);
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Internal server error.' });
@@ -22,6 +31,7 @@ const getProfile = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
+    const cacheKey = `user:${req.user}:route:/profile/${req.url}`;
     const userPersonalDetails = req.body;
     if (!userPersonalDetails) 
       return res.status(400).json({ 'message': 'No user details has been sent.' });
@@ -38,7 +48,7 @@ const updateProfile = async (req, res) => {
     if(userExist && userPersonalDetails){
       async function updateUserProfile(userDetails, userId, userRole){
         try{
-          await prisma.userProfile.update({
+          const updatedProfile = await prisma.userProfile.update({
             where:{
               userId: userId
             },
@@ -52,7 +62,10 @@ const updateProfile = async (req, res) => {
               address: userDetails.address,
             }
           });
+
+          await redisClient.set(cacheKey, JSON.stringify(updatedProfile), "EX", 10);
           console.log("User profile has been updated.");
+          
           return res.status(200).json({"message":"User profile has been updated."})
         }catch (error){
           console.log(error);

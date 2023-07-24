@@ -1,7 +1,16 @@
 const prisma = require('../prisma/db');
+const redisClient = require('../config/redis.config');
+
 
 const getFiles=async (req, res) => {
     try {
+        const cacheKey = `user:${req.user}:route:/files/${req.url}`;
+        const cacheData = await redisClient.get(cacheKey);
+
+        if(cacheData){
+            return res.status(200).json(JSON.parse(cacheData));
+        }
+
         const username = req.user;
         if(!username)
             return res.status(400).json({"message": "Username not found."});
@@ -27,8 +36,10 @@ const getFiles=async (req, res) => {
         if (!userWithFiles) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
+
+        await redisClient.set(cacheKey, JSON.stringify(userWithFiles), "EX", 10);
         res.status(200).json(userWithFiles);
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to retrieve files' });
