@@ -1,10 +1,24 @@
 const { v4: uuidv4 } = require("uuid");
-const prisma = require('../prisma/db');
+const prisma = require("../prisma/db");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
+function getUserName(token) {
+  try {
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const username = decodedToken.username;
+
+    return username;
+  } catch (error) {
+    console.error("Error while extracting username from JWT token:", error);
+    return null;
+  }
+}
 
 // Create a classroom
 async function createClassroom(req, res) {
-  const { classname, teachername } = req.body;
+  const teachername = getUserName(req.cookies.auth);
+  const { classname } = req.body;
 
   try {
     const classroom = await prisma.classroom.create({
@@ -28,12 +42,12 @@ async function createClassroom(req, res) {
 
 // Add a student to a classroom
 async function addStudentToClassroom(req, res) {
-  const { classroomId, studentId } = req.body;
+  const classroomId = req.params.classroomId; // change
+  const { studentId } = req.body;
 
   try {
     const classroom = await prisma.classroom.findUnique({
-      where: { id: Number(classroomId) },
-      include: { students: true },
+      where: { classroomId: classroomId },
     });
 
     // Classroom not found
@@ -42,7 +56,7 @@ async function addStudentToClassroom(req, res) {
     }
 
     const student = await prisma.user.findUnique({
-      where: { id: Number(studentId) },
+      where: { username: studentId },
     });
 
     // Student not found
@@ -52,21 +66,21 @@ async function addStudentToClassroom(req, res) {
 
     // Check if student already exists in the classroom
 
-    const studentExists = classroom.students.some((student) => student.id == studentId);
-
+    const studentExists = await prisma.classroomenrollment.findFirst({
+      where: {
+        classroomId: classroomId,
+        studentId: studentId,
+      },
+    });
     if (studentExists) {
       return res.status(400).json({
         message: "Student already exists in the classroom.",
       });
     }
-    // Add student to the classroom
-    const updatedClassroom = await prisma.classroom.update({
-      where: { id: Number(classroomId) },
+
+    const newUser = await prisma.classroomenrollment.create({
       data: {
-        students: {
-          connect: { id: Number(studentId) },
-        },
-        classStrength: classroom.classStrength + 1,
+        newUser,
       },
     });
 

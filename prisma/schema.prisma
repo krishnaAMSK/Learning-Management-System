@@ -8,14 +8,13 @@ generator client {
 }
 
 model user {
-    id          Int         @id @default(autoincrement())
-    username    String      @unique
-    email       String      @unique
+    id          Int     @id @default(autoincrement())
+    username    String  @unique
+    email       String  @unique
     password    String
     token       String
     is_Verified Boolean
     userRole    String
-    classrooms  Classroom[] @relation("StudentClassrooms")
 }
 
 model userProfile {
@@ -43,6 +42,14 @@ model Classroom {
     classname     String
     classroomId   String @unique
     teachername   String @unique
-    students      user[] @relation("StudentClassrooms")
     classStrength Int    @default(0)
+}
+
+model classroomenrollment {
+    id          Int    @id @default(autoincrement())
+    classroomId String
+    studentId   String
+
+    // You can add additional fields to store data specific to the enrollment if needed
+    @@unique([classroomId, studentId])
 }
