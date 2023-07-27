@@ -8,45 +8,40 @@ generator client {
 }
 
 model user {
-    id          Int     @id @default(autoincrement())
-    username    String  @unique
-    email       String  @unique
+    id          Int         @id @default(autoincrement())
+    username    String      @unique
+    email       String      @unique
     password    String
     token       String
     is_Verified Boolean
     userRole    String
-    profile      userProfile?  @relation(fields: [profileId], references: [id])
-    profileId    Int
     classrooms  Classroom[] @relation("StudentClassrooms")
 }
 
 model userProfile {
-    id            Int       @id @default(autoincrement())
-    fullName      String
-    age           Int
-    gender        String
-    profession    String
+    id             Int    @id @default(autoincrement())
+    userId         Int    @unique
+    fullName       String
+    age            Int
+    gender         String
+    profession     String
     universityName String
-    contactNumber String
-    address       String
-    role          String
-    user          user      @relation(fields: [userId], references: [id])
-    userId        Int
+    contactNumber  String
+    address        String
+    role           String
 }
 
-
-model File {
-    id               Int       @id @default(autoincrement())
-    userId           Int
-    filename         String
-    createdAt        DateTime  @default(now())
+model file {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    fileName  String
+    createdAt DateTime @default(now())
 }
-
 
 model Classroom {
     id            Int    @id @default(autoincrement())
     classname     String
-    classroomId   String    @unique
+    classroomId   String @unique
     teachername   String @unique
     students      user[] @relation("StudentClassrooms")
     classStrength Int    @default(0)

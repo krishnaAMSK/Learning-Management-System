@@ -20,17 +20,15 @@ const getFiles=async (req, res) => {
         // Retrieve the user along with their uploaded files using Prisma's include syntax
         const userWithFiles = await prisma.file.findMany({
             where: {
-            id: userId,
+                userId: userId,
             },
         });
     
         if (!userWithFiles) {
             return res.status(404).json({ error: 'User not found' });
         }
-    
-        const files = userWithFiles.files;
-    
-        res.json({ files });
+        
+        res.status(200).json(userWithFiles);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to retrieve files' });

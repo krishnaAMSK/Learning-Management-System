@@ -21,7 +21,7 @@ const handleNewUser = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 12);
         const randomToken=randomstring.generate();
 
-        async function createUser(username, password, email, randomToken,userRole){
+        async function createUser(username, password, email, randomToken, userRole){
             try{
                 const token = randomToken;
                 const is_Verified = false;
@@ -32,7 +32,7 @@ const handleNewUser = async (req, res) => {
                         email,
                         token,
                         is_Verified,
-                        userRole,
+                        userRole
                     }
                 });
                 console.log("New user created:", newUser);
