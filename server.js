@@ -5,6 +5,7 @@ const prisma = require('./prisma/db');
 const cookieParser = require('cookie-parser');
 const verifyJWT = require('./middleware/jwtTokenMiddleware');
 const checkRole = require('./middleware/checkRoleMiddleware');
+const taskRoutes = require('./routes/taskRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -35,6 +36,7 @@ app.get('/', checkRole(['student', 'teacher', 'admin']), (req, res) => {
 app.use('/profile', require('./routes/profile'));
 app.use('/files',require('./routes/getUploads'));
 app.use('/classroom', require("./routes/classroom"));
+app.use('/api/tasks', taskRoutes);
 app.use('/upload', require('./routes/upload'));
     
 const PORT = process.env.PORT || 5000;
