@@ -15,7 +15,7 @@ const handleNewUser = async (req, res) => {
     });
     
     if(duplicateUser) 
-        return res.status(400).json({ 'message': 'Username already exits' });
+        return res.status(409).json({ 'message': 'Username already exits' });
 
     try {
         const hashedPassword = await bcrypt.hash(password, 12);

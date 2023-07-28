@@ -17,7 +17,7 @@ const handleLoginUser = async (req, res) => {
                 });
 
                 if(!userLogin)
-                    return res.status(401).json({"message": "User not found."});
+                    return res.status(404).json({"message": "User not found."});
 
                 const checkPassword = await bcrypt.compare(password, userLogin.password);
                 if(checkPassword) {
@@ -36,12 +36,12 @@ const handleLoginUser = async (req, res) => {
                     console.log(accessToken);
                     res.cookie('auth', accessToken, cookieOptions);
                     if(userLogin.is_Verified)
-                        res.json({"message": "Logged in and cookie set successfully."});
+                        res.status(201).json({"message": "Logged in and cookie set successfully."});
                     else
-                        res.json({"message": "Logged in and cookie set successfully. But please verify your email."})
+                        res.status(201).json({"message": "Logged in and cookie set successfully. But please verify your email."})
                 }
                 else{
-                    return res.status(401).json({"message": "Invalid Credentials."});
+                    return res.status(200).json({"message": "Invalid Credentials."});
                 }
                 
             }catch(error){
