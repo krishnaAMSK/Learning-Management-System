@@ -40,9 +40,9 @@ model file {
 
 model Classroom {
     id            Int    @id @default(autoincrement())
-    classname     String
+    classname     String @unique
     classroomId   String @unique
-    teachername   String @unique
+    teachername   String 
     students      user[] @relation("StudentClassrooms")
     classStrength Int    @default(0)
 }
